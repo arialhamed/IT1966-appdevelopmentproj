@@ -1,0 +1,13 @@
+body {
+  background-color: #B19CD9;
+}
+.navbar-custom {
+  background-color: purple;
+}
+.navbar-custom a {
+  color: white;
+}
+.navbar-custom a:hover{
+  color: black;
+  text-decoration: underline;
+}

@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block title %}Shopping Cart{% endblock %}
+
+{% block content %}
+{% if 'user_id' in session %}
+
+
+<div>
+  {% if count == 0 %}
+  <h1 class="display-4">Shopping Cart(0 Items)</h1>
+  {% elif count == 1 %}
+  <h1 class="display-4">Shopping Cart(1 Item)</h1>
+  {% else %}
+  <h1 class="display-4">Shopping Cart({{ count }} Items)</h1>
+  {% endif %}
+</div>
+<h2><a href="/customerProduct">Back to Shopping</a></h2>
+<div>
+  {% if count == 0 %}
+  <p>There are no items.</p>
+  {% elif count == 1 %}
+  <p>There is 1 item.</p>
+  {% else %}
+  <p>There are {{ count }} items.</p>
+  {% endif %}
+</div>
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Product ID</th>
+        <th></th>
+        <th></th>
+        <th>Product Name</th>
+        <th></th>
+        <th></th>
+        <th>Quantity</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th>Price</th>
+        <th></th>
+
+      </tr>
+    </thead>
+    <tbody>
+    {% for product in cart_list %}
+      <tr>
+        <td>{{ product.get_products_id() }}</td>
+        <td></td>
+        <td></td>
+        <td>{{ product.get_name() }}</td>
+        <td></td>
+        <td></td>
+        <td><input type="number" id="{{product.get_products_id()}}qty" onchange="myFunction('{{product.get_products_id()}}')" value="{{product.get_qty()}}" min="1" max="{{product.get_stock()}}">
+          <script>
+function wait(ms){
+   var start = new Date().getTime();
+   var end = start;
+   while(end < start + ms) {
+     end = new Date().getTime();
+  }
+}
+function myFunction(product) {
+  var pro = product
+  var x = document.getElementById(product+"qty").value;
+  console.log(x)
+  fetch("/updateCart/"+ pro +"/" + x,{ method: 'POST'});
+  wait(500);
+  window.location.reload();
+}
+</script>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>${{ product.get_price() }}</td>
+        <td>
+          <form action="{{url_for('delete_cart', id=product.get_products_id())}}" method="POST">
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal_{{product.get_products_id()}}"> Delete
+            </button>
+
+    <!-- The Modal -->
+    <div class="modal" id="myModal_{{product.get_products_id()}}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Delete Confirmation</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            Are you sure you want to delete {{product.get_name()}}?
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <input type="submit" value="Delete" class="btn btn-danger">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div></div>
+
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+     <table class="table table-striped">
+    <thead>
+      <tr>
+        <th class ="text-right">Grand Total</th>
+      </tr>
+    </thead>
+       <tbody>
+       <tr>
+        <th class ="text-right">${{total}}</th>
+       </tr>
+
+       </tbody>
+  </table>
+    {% if count != 0 %}
+<form action="confirm" method="GET" style="text-align:right;">
+    <input type="submit" value="Checkout" class="btn btn-primary" >
+</form>
+    {% endif %}
+{% else %}
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+      <div style="text-align: center; font-size: 20px;">
+          <p >You need to be signed in to make a purchase.</p>
+            <a href="/loginCustomer">Login</a>
+      </div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+{% endif %}
+</div>
+{% endblock %}

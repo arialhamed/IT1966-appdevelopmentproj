@@ -1,0 +1,18 @@
+<!--Promotion and Product Page-->
+{% extends "base.html" %}
+
+{% block title %}Queensway Shopping Center{% endblock %}
+
+{% block content %}
+
+    {% if session.logged_in %}
+        <div>
+            <h2 style="text-align:center">Welcome back {{session.username}}!</h2>
+        </div>
+    {% else %}
+        <div>
+            <h2 style="text-align:center">Welcome to Queensway Shopping Center</h2>
+        </div>
+    {% endif %}
+
+{% endblock %}

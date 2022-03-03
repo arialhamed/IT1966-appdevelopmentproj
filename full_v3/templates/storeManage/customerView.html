@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Customer View Product Page{% endblock %}
+
+{% block css %}
+    <meta name="description" content="">
+    <meta name="author" content="">
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+       <div class="card mt-4 border-0"  >
+            <div class="row no-gutters">
+            <div class="col-4">
+          <img src="/static/img/{{ product.get_image() }}" alt="" style="max-width:100%;">
+            </div>
+         <div class="col-lg-6">
+          <div class="card-body">
+            <h3>{{ product.get_name() }}</h3>
+            <h4>${{ product.get_price() }}</h4>
+            <p class="card-text">{{ product.get_description() }}</p>
+              <a class="btn btn-primary" href="/allreviews"  role="button">Reviews</a>
+              <a id="{{product.get_products_id()}}" class="btn btn-primary " href="/addCart/{{product.get_products_id()}}/1"  onclick = "return confirm('Are you sure you want to add {{ product.get_name() }} to cart?')">Add To Cart</a>
+              <input type="number" id="{{product.get_products_id()}}qty" onchange="myFunction('{{product.get_products_id()}}')" value="1" min="1" max="{{product.get_stock()}}">
+            <small class="text-muted">Stock: {{ product.get_stock() }}</small>
+          </div>
+        </div>
+   </div>
+   </div>
+  </div>
+{% endblock content %}
+
+{% block script %}
+<script>
+  function myFunction(product) {
+    var x = document.getElementById(product+"qty").value;
+    console.log(x)
+    document.getElementById(product).href = "/addCart/"+ product + "/" + x;
+  }
+</script>
+{% endblock script %}

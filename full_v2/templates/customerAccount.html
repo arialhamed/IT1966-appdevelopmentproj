@@ -1,0 +1,90 @@
+<!--Customer Profile Page (Front-end)-->
+{% extends "base.html" %}
+{% block title %}Customer Accounts{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/customerProfile.css')}}" type="text/css">
+{% endblock css %}
+
+{% block content %}
+
+<!-- Success Message -->
+  {% if request.args.get('success') %}
+    <div class="alert alert-success">{{ request.args.get('success') }}</div>
+  {% endif%}
+
+  <h1 class="display-4">Customer Accounts</h1>
+<!-- Displaying number of users -->
+  <div>
+    {% if count == 0 %}
+      <p>There are no users.</p>
+    {% elif count == 1 %}
+      <p>There is 1 user.</p>
+    {% else %}
+      <p>There are {{ count }} users.</p>
+    {% endif %}
+  </div>
+
+  <div class="margin">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>User ID</th>
+          <th>Username</th>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Gender</th>
+
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for customer in customer_list %}
+        <tr>
+          <td>{{ customer.get_customer_id() }}</td>
+          <td>{{ customer.get_username() }}</td>
+          <td>{{ customer.get_firstName() }}&nbsp{{ customer.get_lastName() }}</td>
+          <td>{{ customer.get_email() }}</td>
+          <td>{{ customer.get_gender() }}</td>
+          <td><a href="/updateCustomer/{{customer.get_customer_id()}}" class="btn btn-warning">View</a></td>
+          <td>
+            <form action="{{url_for('delete_customer', id=customer.get_customer_id())}}" method="POST">
+              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal_{{customer.get_customer_id()}}">
+                Delete
+              </button>
+
+              <!-- The Modal -->
+              <div class="modal" id="myModal_{{customer.get_customer_id()}}">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h4 class="modal-title">Delete Confirmation</h4>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      Are you sure you want to delete {{customer.get_username()}}?
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                      <input type="submit" value="Delete" class="btn btn-danger">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+{% endblock %}

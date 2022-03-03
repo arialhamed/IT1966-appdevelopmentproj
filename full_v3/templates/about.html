@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}QWS - About Us{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css">
+{% endblock css %}
+
+{% block heading %}
+    <img src="{{url_for('static', filename='img/About Us.png')}}" alt="" width="100%">
+{% endblock heading %}
+
+{% block content %}
+    <div class="container">
+      <h2 class="display-4">THE <b>QUEENSWAY SHOPPING CENTRE</b> STORY</h2>
+      <br>
+      <p>Queensway Shopping Centre is one of Singapore’s most popular malls for sports apparels. It offers a wide range of sports gear, limited edition sports apparels and equipment. Since its opening in 1976, Queensway Shopping Centre has become well known over the time as ‘Singapore’s sports mall’.</p>
+      <p>The mall also features a unique mix of specialty services such as leather smith, embroidery design and print, to laser engraving. Being one of the oldest malls in Singapore, Queensway Shopping Centre offers shoppers a blend of both modern and nostalgic shopping experience like no others.</p>
+      <p>Located in close proximity to Queenstown MRT Station (EW19), it is also a favourite hangout for families and youths.</p>
+    </div>
+{% endblock %}

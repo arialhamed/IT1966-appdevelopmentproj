@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+<!--{% block title %}Library Loan System - Create User{% endblock %}-->
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+  <div class="py-5 text-center">
+    <img class="d-block mx-auto mb-4" src="https://www.queenswayshoppingcentre.com.sg/wp-content/uploads/2017/02/Queensway-Shopping-Centre.png" alt="" height="72">
+    <h2>Paid</h2>
+    <p class="lead">Thank you for shopping with us</p>
+  </div>
+
+  <div class="row" style="text-align:center">
+    <div class="col" style="text-align: center;">
+      <h4 class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-muted">Your cart</span>
+        <span class="badge badge-secondary badge-pill">{{products|length}}</span>
+      </h4>
+      <ul class="list-group mb-3">
+        {% for product in products_list %}
+        <li class="list-group-item d-flex justify-content-between lh-condensed">
+          <div>
+            <h6 class="my-0">{{product.get_name()}}</h6>
+            <small class="text-muted">quantity:{{product.get_qty()}}</small>
+          </div>
+          <span class="text-muted">${{product.get_total()}}</span>
+        </li>
+        {% endfor %}
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Total (USD)</span>
+          <strong>{{total}}</strong>
+        </li>
+      </ul>
+    </div>
+  </div>
+{% endblock %}

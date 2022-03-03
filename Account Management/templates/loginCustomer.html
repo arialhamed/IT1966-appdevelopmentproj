@@ -1,0 +1,52 @@
+<!--Customer Account Login Page (Front-end)-->
+{% extends "entry_base.html" %}
+
+{% block title %}QWS - Account Login{% endblock %}
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+
+{% if error %}
+  <div class="alert alert-danger">{{error}}</div>
+{% endif%}
+<div class="wrapper bg-white mt-sm-5">
+  <form method="POST" action="">
+    <!--Header-->
+    <h2 class="pb-4 border-bottom" style="text-align: center;">Login</h2>
+
+    <!--Sub-text-->
+    <p class="hint-text">Welcome back to Queensway Shopping Center</p>
+
+    <!--Username-->
+    <div class="row py-2">
+      <div class="col-md-12">
+        {{ render_field(form.username, class="form-control", placeholder="Username") }}
+      </div>
+    </div>
+
+    <!--Password-->
+    <div class="row py-2">
+      <div class="col-md-12">
+        {{ render_field(form.password, class="form-control", placeholder="Password") }}
+      </div>
+    </div>
+
+    <!--Login Button-->
+    <input type="submit" value="Login" onclick="" class="btn btn-success btn-lg btn-block"/>
+    <br/>
+
+    <span style="text-align:left;">
+      <!--Forgot Password-->
+      <span>
+        Forgot <a href="/forgetPassword">Password</a>?
+      </span>
+
+      <!--Register Link-->
+      <span style="float:right;">
+          Not registered? <a href="/createCustomer">Sign up now!</a>
+      </span>
+    </span>
+  </form>
+
+</div>
+{% endblock %}

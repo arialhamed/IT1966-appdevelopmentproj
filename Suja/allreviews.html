@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Reviews{% endblock %}
+
+{% block content %}
+<h1 class="display-4">Reviews</h1>
+<div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Ratings</th>
+        <th>Product Name</th>
+        <th>Email</th>
+        <th>Comments</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for review in reviews_list %}
+        <tr>
+            {% if review.get_ratings() == "1 star" %}
+            <td><img src="{{url_for('static', filename='img/Star_rating_1_of_5.png')}}" width="200" height="40"></td>
+            {% elif review.get_ratings() == "2 stars" %}
+            <td><img src="{{url_for('static', filename='img/Star_rating_2_of_5.png')}}" width="200" height="40"></td>
+            {% elif review.get_ratings() == "3 stars" %}
+            <td><img src="{{url_for('static', filename='img/Star_rating_3_of_5.png')}}" width="200" height="40"></td>
+            {% elif review.get_ratings() == "4 stars" %}
+            <td><img src="{{url_for('static', filename='img/Star_rating_4_of_5.png')}}" width="200" height="40"></td>
+            {% elif review.get_ratings() == "5 stars" %}
+            <td><img src="{{url_for('static', filename='img/Star_rating_5_of_5.png')}}" width="200" height="40"></td>
+            {% endif %}
+            <td>{{ review.get_product_name() }}</td>
+            <td>{{ review.get_email() }}</td>
+            <td>{{ review.get_comments() }}</td>
+            <td><a href="/updatereview/{{review.get_review_id()}}" class="btn btn-warning">Edit</a></td>
+            <td>
+              <form action="{{url_for('delete_review', id=review.get_review_id())}}" method="POST">
+                <input type="submit" value="Delete" class="btn btn-danger">
+              </form>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

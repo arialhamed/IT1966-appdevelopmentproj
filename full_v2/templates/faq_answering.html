@@ -1,0 +1,24 @@
+{% extends "faq_base.html" %}
+<!--{% block title %}Library Loan System - Create User{% endblock %}-->
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+
+<div class="container py-3">
+    <div class="row">
+        <form method="POST" action="">
+            <div class="form-group">
+                <h5>Edit question</h5>
+                {{ render_field(form.question, class="form-control") }}
+            </div>
+            <div class="form-group">
+
+                {{ render_field(form.answer, class="form-control") }}
+
+            </div>
+            <input type="submit" value="Submit" onclick="" class="btn btn-primary">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}QWS - Contact Us{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" type="text/css">
+{% endblock css %}
+
+{% block heading %}
+    <img src="{{url_for('static', filename='img/Contact Us.png')}}" alt="" width="100%">
+{% endblock heading %}
+
+{% block content %}
+    <div class="container">
+      <h2 class="display-4">THE <b>QUEENSWAY SHOPPING CENTRE</b> SUPPORT</h2>
+      <br>
+      <h3>Management Office:</h3>
+      <h4>Management Corporation Strata Title No. 572</h4>
+      <br>
+      <h3>Office Address:</h3>
+      <a href="https://www.google.com.sg/maps/place/1+Queensway,+Singapore+149053/@1.2875231,103.8009176,17z/data=!3m1!4b1!4m5!3m4!1s0x31da1bcb71f2e6a3:0x6bd0a40e2648e53!8m2!3d1.2875231!4d103.8031063" target="_blank"><h4>1 Queensway, #B1-03, Queensway Shopping Centre, Singapore 149053</h4></a>
+      <br>
+      <h3>Office Hours:</h3>
+      <h4>Monday to Friday, from 08:30 AM till 05:00 PM <br>Saturday, from 08:30 AM till 12:30 PM <br>Closed on Sunday and Public Holiday</h4>
+      <br>
+      <h3>Phone:</h3>
+      <a href="tel:+65 64798676"><h4>+65 6479 8676</h4></a>
+      <br>
+      <h3>Fax:</h3>
+      <a href="tel:+65 64735811"><h4>+65 6473 5811</h4></a>
+    </div>
+{% endblock %}

@@ -1,0 +1,91 @@
+<!--Navigation Bar-->
+<nav class="navbar navbar-expand-lg navbar-custom">
+  <a class="navbar-brand" href="/"><img src="{{url_for('static', filename='img/Queensway-Shopping-Centre.png')}}" alt="Queensway Shopping Center"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" style="color:black; visibility:visible;">
+    <span class="navbar-toggler-icon" style="color:black; visibility:visible;"></span>
+  </button>
+  {% if session.admin_logged_in %}
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">HOME</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/storeManage">PRODUCTS</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/staffreview">REVIEWS</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/customerAccount">CUSTOMER ACCOUNTS</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/FAQ">FAQ</a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+        &nbsp &nbsp &nbsp
+        <a href="/logout" style="color: white;">LOGOUT</a>
+      </form>
+    </div>
+  {% else %}
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">HOME</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/customerProduct">PRODUCTS</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about">ABOUT US</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/contact">CONTACT US</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/FAQ">FAQ</a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+        &nbsp &nbsp &nbsp
+
+        {% if session.logged_in %}
+          <ul class="navbar-nav mr-right">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
+                <span class="fas fa-user" style="font-size: 25px;"></span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/customerProfile" style="color: gray;">Account</a>
+                <a class="dropdown-item" href="/logout" style="color: gray;">Logout</a>
+              </div>
+            </li>
+          </ul>
+        {% else %}
+          <ul class="navbar-nav mr-right">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white;">
+                <span class="fas fa-user" style="font-size: 25px;"></span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <h2 class="dropdown-header" style="color: black">Customer</h2>
+                <a class="dropdown-item" href="/createCustomer" style="color: gray;">Register</a>
+                <a class="dropdown-item" href="/loginCustomer" style="color: gray;">Login</a>
+                <div class="dropdown-divider"></div>
+                <h2 class="dropdown-header" style="color: black">Admin</h2>
+                <a class="dropdown-item" href="/loginAdmin" style="color: gray;">Login</a>
+              </div>
+            </li>
+          </ul>
+        {% endif %}
+        &nbsp &nbsp &nbsp
+        <a href="/shoppingCart" style="color: white;"><i class="fa fa-shopping-cart" aria-hidden="true" style="font-size: 25px;"></i></a>
+      </form>
+    </div>
+  {% endif %}
+</nav>

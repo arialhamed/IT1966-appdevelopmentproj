@@ -1,0 +1,135 @@
+<!--Customer Account Creation Page (Front-end)-->
+{% extends "base.html" %}
+
+{% block title %}QWS - Account Registration{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/entry_base.css')}}" type="text/css">
+{% endblock css %}
+
+{% block content %}
+
+{% from "includes/_formHelper.html" import render_field %}
+
+<!-- Error/ Success Message -->
+{% if error %}
+  <div class="alert alert-danger">{{error}}</div>
+{% elif request.args.get('success') %}
+  <div class="alert alert-success">{{ request.args.get('success') }}</div>
+{% endif%}
+
+<!--Registration Form-->
+<div class="wrapper bg-white mt-sm-5">
+    <form method="POST" action="">
+    <!--Header-->
+        <h2 class="pb-4 border-bottom" style="text-align: center;">Account Registration</h2>
+
+    <!--Sub-text-->
+        <p class="hint-text">Create an account now. It's free and only takes a minute.</p>
+
+        <h4><u>Personal Information</u></h4>
+        <div class="row py-2">
+            <div class="col-md-6">
+              <!--First Name field-->
+              {{ render_field(form.first_name, class="bg-light form-control", placeholder="First Name") }}
+            </div>
+            <div class="col-md-6">
+                <!--Last Name field-->
+                {{ render_field(form.last_name, class="form-control", placeholder="Last Name") }}
+            </div>
+        </div>
+
+        <div class="row py-2">
+            <div class="col-md-12">
+                <!-- Username field-->
+                {{ render_field(form.username, class="form-control", placeholder="Username") }}
+            </div>
+        </div>
+
+        <div class="row py-2">
+            <div class="col-md-12">
+                <!-- Email field-->
+                {{ render_field(form.email, class="form-control", placeholder="Email") }}
+            </div>
+        </div>
+
+        <div class="row py-2">
+            <div class="col-md-6">
+                <!-- Gender field-->
+                {{ render_field(form.gender, class="form-control") }}
+            </div>
+            <div class="col-md-6">
+                <!-- Date-of-Birth field-->
+                {{ render_field(form.DOB, class="form-control", placeholder="Date of Birth") }}
+            </div>
+        </div>
+
+        <div class="row py-2">
+            <div class="col-md-12">
+                <!-- Password field-->
+                {{ render_field(form.password, class="form-control", placeholder="Password") }}
+            </div>
+        </div>
+
+        <div class="row py-2">
+            <div class="col-md-12">
+                <!-- Confirm Password field-->
+                {{ render_field(form.confirm, class="form-control", placeholder="Re-type Password") }}
+            </div>
+        </div>
+
+        <div class="row py-2">
+            <div class="col-md-12">
+                <!-- Phone Number field-->
+                {{ render_field(form.phone_number, class="form-control", placeholder="e.g. 85552555") }}
+            </div>
+        </div>
+
+        <br>
+        <h4><u>Payment Information</u></h4>
+
+        <div class="row py-2">
+            <div class="col-md-12">
+                <!-- Address field-->
+                {{ render_field(form.address, class="form-control", placeholder="Address") }}
+            </div>
+        </div>
+
+            <div class="row py-2">
+                <div class="col-md-6">
+                    <!-- Postal Code field-->
+                    {{ render_field(form.postal, class="form-control", placeholder="Postal Code") }}
+                </div>
+                <div class="col-md-6">
+                    <!-- Payment Type field-->
+                    {{ render_field(form.payment_type, class="form-control") }}
+                </div>
+            </div>
+
+        <div class="row py-2">
+            <div class="col-md-12">
+                <!-- Card Number field-->
+                {{ render_field(form.card_number, class="form-control", placeholder="Card Number") }}
+            </div>
+        </div>
+
+
+        <div class="row py-2">
+            <div class="col-md-6">
+                <!-- Card expiry field-->
+                {{ render_field(form.expiry, class="form-control") }}
+            </div>
+            <div class="col-md-6">
+                <!-- Card Security Code field-->
+                {{ render_field(form.security_code, class="form-control", placeholder="CVV") }}
+            </div>
+        </div>
+        <br>
+        <input type="submit" value="Register" onclick="" class="btn btn-success btn-lg btn-block"/>
+        <br/>
+        <div class="text-center">Already have an account? <a href="/loginCustomer">Login here</a></div>
+    </form>
+</div>
+
+{% endblock %}

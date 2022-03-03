@@ -1,0 +1,235 @@
+<!--Update Customer Page (Front-end)-->
+{% extends "base.html" %}
+
+{% block title %}QWS - Update{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/customerProfile.css')}}" type="text/css">
+{% endblock css %}
+
+{% block content %}
+  {% from "includes/_formHelper.html" import render_field %}
+    <form method="POST" action="">
+      <div class="position">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-body">
+                <div class="card-title mb-4">
+                  <div class="d-flex justify-content-start">
+                    <div class="userData ml-3">
+                      <!--Username-->
+                      <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold"><span class="link">Edit Profile</span></h2>
+                      <input type="submit" value="Update" onclick="" class="btn btn-warning"/>
+
+                      {% if session.admin_logged_in == True %}
+                        <a href="/customerAccount" class="btn btn-danger">Cancel</a>
+                      {% else %}
+                        <a href="/customerProfile" class="btn btn-danger">Cancel</a>
+                      {% endif %}
+                    </div>
+                    <div class="ml-auto">
+                      <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12">
+                    <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true"><span class="link">Personal Information</span></a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="connectedServices-tab" data-toggle="tab" href="#connectedServices" role="tab" aria-controls="connectedServices" aria-selected="false"><span class="link">Payment Information</span></a>
+                      </li>
+                    </ul>
+                    <div class="tab-content ml-1" id="myTabContent">
+                      <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+
+                        <div class="row">
+                          <div class="col-sm-3 col-md-2 col-5">
+                            <!--Label of First Name-->
+                            <label style="font-weight:bold;">First Name</label>
+                          </div>
+                          <div class="col-md-8 col-6">
+                            <!--Attribute to First Name -->
+                            {{ render_field(form.first_name, class="bg-light form-control", placeholder="First Name") }}
+                          </div>
+                        </div>
+                        <hr />
+
+                        <div class="row">
+                          <div class="col-sm-3 col-md-2 col-5">
+                            <!--Label of Last Name-->
+                            <label style="font-weight:bold;">Last Name</label>
+                          </div>
+                          <div class="col-md-8 col-6">
+                            <!--Attribute to Last Name -->
+                            {{ render_field(form.last_name, class="form-control", placeholder="Last Name") }}
+                          </div>
+                        </div>
+                        <hr />
+
+                        <div class="row">
+                          <div class="col-sm-3 col-md-2 col-5">
+                            <!--Label of Username-->
+                            <label style="font-weight:bold;">Username</label>
+                          </div>
+                          <div class="col-md-8 col-6">
+                            <!-- Attribute to Username -->
+                            {{ render_field(form.username, class="form-control", placeholder="Username") }}
+                          </div>
+                        </div>
+                        <hr />
+
+                        <div class="row">
+                          <div class="col-sm-3 col-md-2 col-5">
+                            <!-- Label of Email -->
+                            <label style="font-weight:bold;">Email</label>
+                          </div>
+                          <div class="col-md-8 col-6">
+                            <!-- Attribute to Email -->
+                            {{ render_field(form.email, class="form-control", placeholder="Email") }}
+                          </div>
+                        </div>
+                        <hr />
+
+
+                        <div class="row">
+                          <div class="col-sm-3 col-md-2 col-5">
+                            <!-- Label of Gender -->
+                            <label style="font-weight:bold;">Gender</label>
+                          </div>
+                          <div class="col-md-8 col-6">
+                            <!-- Attribute to Gender -->
+                            {{ render_field(form.gender, class="form-control") }}
+                          </div>
+                        </div>
+                        <hr />
+
+                        <div class="row">
+                          <div class="col-sm-3 col-md-2 col-5">
+                            <!-- Label of date of birth -->
+                            <label style="font-weight:bold;">Date of Birth</label>
+                          </div>
+                          <div class="col-md-8 col-6">
+                            <!-- Attribute to date of birth -->
+                            {{ render_field(form.DOB, class="form-control", placeholder="Date of Birth") }}
+                          </div>
+                        </div>
+                        <hr />
+
+                        <div class="row">
+                          <div class="col-sm-3 col-md-2 col-5">
+                            <!-- Label of Password -->
+                            <label style="font-weight:bold;">Password</label>
+                          </div>
+                          <div class="col-md-8 col-6">
+                            <a href="/resetPassword" class="btn btn-danger">Reset Password</a>
+                          </div>
+
+                        </div>
+                        <hr />
+
+                        <div class="row">
+                          <div class="col-sm-3 col-md-2 col-5">
+                            <!-- Label of Phone number -->
+                            <label style="font-weight:bold;">Phone Number</label>
+                          </div>
+                          <div class="col-md-8 col-6">
+                            <!-- Attribute to Phone number -->
+                            {{ render_field(form.phone_number, class="form-control", placeholder="e.g. 85552555") }}
+                          </div>
+                        </div>
+                        <hr />
+
+                      </div>
+
+                      <div class="tab-pane fade" id="connectedServices" role="tabpanel" aria-labelledby="ConnectedServices-tab">
+
+                        <div class="row">
+                          <div class="col-sm-3 col-md-2 col-5">
+                            <!-- Label of address -->
+                            <label style="font-weight:bold;">Address</label>
+                          </div>
+                          <div class="col-md-8 col-6">
+                            <!-- Attribute to address -->
+                            {{ render_field(form.address, class="form-control", placeholder="Address") }}
+                          </div>
+                        </div>
+                        <hr />
+
+                        <div class="row">
+                          <div class="col-sm-3 col-md-2 col-5">
+                            <!-- Label of postal code -->
+                            <label style="font-weight:bold;">Postal Code</label>
+                          </div>
+                          <div class="col-md-8 col-6">
+                            <!-- Attribute to postal -->
+                            {{ render_field(form.postal, class="form-control", placeholder="Postal Code") }}
+                          </div>
+                        </div>
+                        <hr />
+
+                        <div class="row">
+                          <div class="col-sm-3 col-md-2 col-5">
+                            <!-- Label of payment method -->
+                            <label style="font-weight:bold;">Payment type</label>
+                          </div>
+                          <div class="col-md-8 col-6">
+                            <!-- Attribute to payment -->
+                            {{ render_field(form.payment_type, class="form-control") }}
+                          </div>
+                        </div>
+                        <hr />
+
+                        <div class="row">
+                          <div class="col-sm-3 col-md-2 col-5">
+                            <!-- Label of Card Number -->
+                            <label style="font-weight:bold;">Card Number</label>
+                          </div>
+                          <div class="col-md-8 col-6">
+                            <!-- Attribute to card number -->
+                            {{ render_field(form.card_number, class="form-control", placeholder="Card Number") }}
+                          </div>
+                        </div>
+                        <hr />
+
+                        <div class="row">
+                          <div class="col-sm-3 col-md-2 col-5">
+                            <!-- Label of Card Expiry -->
+                            <label style="font-weight:bold;">Card Expiry Date</label>
+                          </div>
+                          <div class="col-md-8 col-6">
+                            <!-- Attribute to Expiry -->
+                            {{ render_field(form.expiry, class="form-control") }}
+                          </div>
+                        </div>
+                        <hr />
+
+                        <div class="row">
+                          <div class="col-sm-3 col-md-2 col-5">
+                            <!-- Label of card security code -->
+                            <label style="font-weight:bold;">Card Security Code</label>
+                          </div>
+                          <div class="col-md-8 col-6">
+                            <!-- Attribute to card security code -->
+                            {{ render_field(form.security_code, class="form-control", placeholder="CVV") }}
+                          </div>
+                        </div>
+                        <hr />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+{% endblock %}
+

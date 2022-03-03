@@ -1,0 +1,73 @@
+{% extends "faq_base.html" %}
+{% block title %}Queensway Shopping Centre - FAQ {% if session.admin_logged_in %}(Admin){% endif %}{% endblock %}-->
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+
+<div class="container py-3">
+    <div class="row">
+        <div class="col-10 mx-auto">
+            {% if unanswered_count != 0 %}
+                There are {{ unanswered_count }} questions left unanswered. Please drop by again to see them answered by our admins, thank you!
+            {% endif %}
+            <div class="accordion" id="faqExample">
+
+                {% for question in question_list %}
+                    {% if question.get_answer() != "" or session.admin_logged_in %}
+                        <div class="card">
+                            <div class="card-header p-2" id="heading{{ question.get_id() }}">
+                                <h5>
+                                    <button class="btn btn-link {{ 'collapsed' if loop.index != 1 }}" type="button" data-toggle="collapse" data-target="#collapse{{ loop.index }}" aria-expanded="{{ 'true' if loop.index == 1 else 'false' }}" aria-controls="collapse{{ loop.index }}">
+                                        {% if question.get_answer() == "" %}
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                                <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+                                            </svg>
+                                        {% endif %}
+                                        {{ question.get_question() }}
+                                    </button>
+                                    {% if session.admin_logged_in %}
+                                    <form action="/FAQdelete/{{ question.get_id() }}/", method="POST", class="float-right">
+                                        <button class="btn btn-danger">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                    {% endif %}
+                                </h5>
+                            </div>
+                            <div id="collapse{{ loop.index }}" class="collapse {{ 'show' if loop.index == 1 }}" aria-labelledby="heading{{ loop.index }}" data-parent="#faqExample">
+                                <div class="card-body">
+                                    {% if session.admin_logged_in and question.get_answer() == "" %}
+                                        <a href="/FAQanswering/{{ question.get_id() }}" class="btn btn-warning">Answer/edit this question</a>
+                                    {% else %}
+                                        <b>Answer:</b>
+                                        {{ question.get_answer() }}
+
+                                    {% endif %}
+                                    {% if session.admin_logged_in and question.get_answer() != "" %}
+                                        <a href="/FAQanswering/{{ question.get_id() }}" class="btn btn-warning float-right">Edit this post</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container py-3">
+    <form method="POST" action="" id="question">
+        <div class="form-group">
+            <h5>Post a question for us!</h5>
+<!--            <label for="comment">Your Comment</label>-->
+<!--            <textarea name="comment" class="form-control" rows="3"></textarea>-->
+            {{ render_field(form.question, class="form-control") }}
+        </div>
+        <button type="submit" class="btn btn-default">Send</button>
+    </form>
+</div>
+{% endblock %}

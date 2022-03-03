@@ -1,0 +1,9 @@
+.navbar-custom {
+  background-color: purple;
+}
+.navbar-custom a {
+  color: white;
+}
+.navbar-custom a:hover{
+  color: black;
+}

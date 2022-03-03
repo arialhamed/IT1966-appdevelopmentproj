@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+<!--{% block title %}Library Loan System - Create User{% endblock %}-->
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+  <div class="py-5 text-center">
+    <img class="d-block mx-auto mb-4" src="https://www.queenswayshoppingcentre.com.sg/wp-content/uploads/2017/02/Queensway-Shopping-Centre.png" alt="" height="72">
+    <h2>Checkout form</h2>
+    <p class="lead">Enter transactions details and check cart items.</p>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4 order-md-2 mb-4">
+      <h4 class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-muted">Your cart</span>
+        <span class="badge badge-secondary badge-pill">3</span>
+      </h4>
+      <ul class="list-group mb-3">
+        {% for product in products_list %}
+        <li class="list-group-item d-flex justify-content-between lh-condensed">
+          <div>
+            <h6 class="my-0">{{product.get_name()}}</h6>
+            <small class="text-muted">quantity:{{product.get_qty()}}</small>
+          </div>
+          <span class="text-muted">${{product.get_total()}}</span>
+        </li>
+        {% endfor %}
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Total (USD)</span>
+          <strong>{{total}}</strong>
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-8 order-md-1">
+      <h4 class="mb-3">Billing address</h4>
+      <form class="needs-validation" novalidate="">
+        <div class="row">
+          <div class="form-group col-md-6 mb-3">
+            <b><label for="firstName">First name</label></b>
+            <p>{{customer.get_firstName()}}</p>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <b><label for="lastName">Last name</label></b>
+            <p>{{customer.get_lastName()}}</p>
+          </div>
+        </div>
+        <div class="form-group mb-3">
+          <b><label for="username">Username</label></b>
+            <p>{{customer.get_username()}}</p>
+        </div>
+        <div class="form-group mb-3">
+          <b><label for="email">Email</label></b>
+            <p>{{customer.get_email()}}</p>
+        </div>
+        <div class="form-group mb-3">
+          <b><label for="address">Address</label></b>
+            <p>{{customer.get_address()}}</p>
+        </div>
+        <hr class="mb-4">
+
+        <h4 class="mb-3">Payment</h4>
+        <div class="form-group mb-3">
+          <b><label class="custom-control-label" for="credit">Method</label></b>
+          <p>{{customer.get_payment_method()}}</p>
+        </div>
+        <div class="form-group mb-3">
+          <b><label for="cc-number">Credit card number</label></b>
+          <p>{{customer.get_card_number()}}</p>
+        </div>
+        <div class="form-group mb-3">
+          <b><label for="cc-expiration">Expiration</label></b>
+          <p>{{customer.get_expiry()}}</p>
+        </div>
+        <div class="form-group mb-3">
+          <b><label for="cc-cvv">CVV</label></b>
+          <p>{{customer.get_security_code()}}</p>
+        </div>
+
+        <hr class="mb-4">
+      </form>
+      <form action="/customerProfile" method="GET">
+        <input type="submit" class="btn btn-secondary btn-lg btn-block" value="Change">
+      </form>
+      <form action="{{url_for('paid')}}">
+        <button class="btn btn-primary btn-lg btn-block" type="submit">Proceed to Checkout</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Customer Product page{% endblock %}
+
+{% block content %}
+<main role="main">
+  <section class="jumbotron text-center">
+    <div class="container">
+      <h1>Store Products</h1>
+    </div>
+  </section>
+
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row">
+        {% for product in products_list %}
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <a href = "{{url_for('customer_view', id=product.get_products_id())}}"><img src="/static/img/{{ product.get_image() }}" class="card-img-top">
+            </a>
+            <div class="card-body">
+              <p class="card-text">{{ product.get_name() }}</p>
+              <p class="card-text">${{ product.get_price() }}</p>
+              <p class="card-text">{{ product.get_description() }}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <a class="btn btn-sm btn-outline-secondary" href=""  role="button">Reviews</a>
+                  <input type= "submit" value= "Add to Cart" class="btn btn-sm btn-outline-secondary" onclick = "return confirm('Are you sure you want to add {{ product.get_name() }} to cart?')" role="button">
+                </div>
+                <small class="text-muted">Quantity {{ product.get_quantity() }}</small>
+              </div>
+                </div>
+              </div>
+            </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}
+

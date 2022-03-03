@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Queensway Shopping Center{% endblock %}
+
+{% block content %}
+
+    {% if session.logged_in %}
+        <div>
+            <h2 style="text-align:center">Welcome back {{session.username}}!</h2>
+        </div>
+    {% else %}
+        <div>
+            <h2 style="text-align:center">Welcome to Queensway Shopping Center</h2>
+        </div>
+    {% endif %}
+    <table>
+        <tr>
+            <td>
+                <div class="card">
+                    <a href="#">
+                        <img src="https://www.w3schools.com/w3images/jeans3.jpg" alt="Denim Jeans" style="width:100%">
+                        <h1>Tailored Jeans</h1>
+                        <p class="price">$19.99</p>
+                        <p>Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum.</p>
+                    </a>
+                  <p><button>Add to Cart</button></p>
+                </div>
+            </td>
+            <td>
+                <div class="card">
+                    <a href="#">
+                        <img src="https://www.w3schools.com/w3images/jeans3.jpg" alt="Denim Jeans" style="width:100%">
+                        <h1>Tailored Jeans</h1>
+                        <p class="price">$19.99</p>
+                        <p>Some text about the jeans. Super slim and comfy lorem ipsum lorem jeansum. Lorem jeamsun denim lorem jeansum.</p>
+                    </a>
+                  <p><button>Add to Cart</button></p>
+                </div>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

@@ -1,0 +1,254 @@
+<!--Customer Profile Page (Front-end)-->
+{% extends "base.html" %}
+
+{% block title %}QWS - Profile{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/customerProfile.css')}}" type="text/css">
+{% endblock css %}
+
+{% block content %}
+  {% from "includes/_formHelper.html" import render_field %}
+
+  {% if request.args.get('success') %}
+    <div class="alert alert-success">{{ request.args.get('success') }}</div>
+  {% endif%}
+
+  {% for customer in customer_list %}
+    <div class="position">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="card-title mb-4">
+                <div class="d-flex justify-content-start">
+                  <div class="userData ml-3">
+                    <!--Username-->
+                    <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold;"><span class="link">{{ customer.get_username() }}</span></h2>
+                    <!--Edit and Delete Button-->
+                    <a href="/updateCustomer/{{customer.get_customer_id()}}" class="btn btn-warning">Edit</a>
+                    {% if 'transaction' in session %}
+                      <a href="/confirm" class="btn btn-primary">Back to Check out</a>
+                    {% endif %}
+                    <form action="{{url_for('delete_customer', id=customer.get_customer_id())}}" method="POST">
+                      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal_{{customer.get_customer_id()}}" style="margin-top: 10px;">
+                        Delete
+                      </button>
+
+                      <!-- The Modal -->
+                      <div class="modal" id="myModal_{{customer.get_customer_id()}}">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                              <h4 class="modal-title">Delete Confirmation</h4>
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                              Are you sure you want to delete {{customer.get_username()}}?
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                              <input type="submit" value="Delete" class="btn btn-danger">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                    <div class="ml-auto">
+                      <input type="button" class="btn btn-primary d-none" id="btnDiscard" value="Discard Changes" />
+                    </div>
+                  </div>
+                </div>
+
+              <div class="row">
+                <div class="col-12">
+                  <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true"><span class="link">Personal Information</span></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="connectedServices-tab" data-toggle="tab" href="#connectedServices" role="tab" aria-controls="connectedServices" aria-selected="false"><span class="link">Payment Information</span></a>
+                    </li>
+                  </ul>
+                  <div class="tab-content ml-1" id="myTabContent">
+                    <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+
+                      <div class="row">
+                        <div class="col-sm-3 col-md-2 col-5">
+                          <!--Label of First Name-->
+                          <label style="font-weight:bold;">First Name</label>
+                        </div>
+                        <div class="col-md-8 col-6">
+                          <!--Attribute to First Name -->
+                          {{ customer.get_firstName() }}
+                        </div>
+                      </div>
+                      <hr />
+
+                      <div class="row">
+                        <div class="col-sm-3 col-md-2 col-5">
+                          <!--Label of Last Name-->
+                          <label style="font-weight:bold;">Last Name</label>
+                        </div>
+                        <div class="col-md-8 col-6">
+                          <!--Attribute to Last Name -->
+                          {{ customer.get_lastName() }}
+                        </div>
+                      </div>
+                      <hr />
+
+                      <div class="row">
+                        <div class="col-sm-3 col-md-2 col-5">
+                          <!--Label of Username-->
+                          <label style="font-weight:bold;">Username</label>
+                        </div>
+                        <div class="col-md-8 col-6">
+                          <!-- Attribute to Username -->
+                          {{ customer.get_username() }}
+                        </div>
+                      </div>
+                      <hr />
+
+                      <div class="row">
+                        <div class="col-sm-3 col-md-2 col-5">
+                          <!-- Label of Email -->
+                          <label style="font-weight:bold;">Email</label>
+                        </div>
+                        <div class="col-md-8 col-6">
+                          <!-- Attribute to Email -->
+                          {{ customer.get_email() }}
+                        </div>
+                      </div>
+                      <hr />
+
+
+                      <div class="row">
+                        <div class="col-sm-3 col-md-2 col-5">
+                          <!-- Label of Gender -->
+                          <label style="font-weight:bold;">Gender</label>
+                        </div>
+                        <div class="col-md-8 col-6">
+                          <!-- Attribute to Gender -->
+                          {{ customer.get_gender() }}
+                        </div>
+                      </div>
+                      <hr />
+
+                      <div class="row">
+                        <div class="col-sm-3 col-md-2 col-5">
+                          <!-- Label of date of birth -->
+                          <label style="font-weight:bold;">Date of Birth</label>
+                        </div>
+                        <div class="col-md-8 col-6">
+                          <!-- Attribute to date of birth -->
+                          {{ customer.get_birth() }}
+                        </div>
+                      </div>
+                      <hr />
+
+                      <div class="row">
+                        <div class="col-sm-3 col-md-2 col-5">
+                          <!-- Label of Phone number -->
+                          <label style="font-weight:bold;">Phone Number</label>
+                        </div>
+                        <div class="col-md-8 col-6">
+                          <!-- Attribute to Phone number -->
+                          +65 {{ customer.get_phone_number() }}
+                        </div>
+                      </div>
+                      <hr />
+
+                    </div>
+
+                    <div class="tab-pane fade" id="connectedServices" role="tabpanel" aria-labelledby="ConnectedServices-tab">
+
+                      <div class="row">
+                        <div class="col-sm-3 col-md-2 col-5">
+                          <!-- Label of address -->
+                          <label style="font-weight:bold;">Address</label>
+                        </div>
+                        <div class="col-md-8 col-6">
+                          <!-- Attribute to address -->
+                          {{ customer.get_address() }}
+                        </div>
+                      </div>
+                      <hr />
+
+                      <div class="row">
+                        <div class="col-sm-3 col-md-2 col-5">
+                          <!-- Label of postal code -->
+                          <label style="font-weight:bold;">Postal Code</label>
+                        </div>
+                        <div class="col-md-8 col-6">
+                          <!-- Attribute to postal -->
+                          {{ customer.get_postal() }}
+                        </div>
+                      </div>
+                      <hr />
+
+                      <div class="row">
+                        <div class="col-sm-3 col-md-2 col-5">
+                          <!-- Label of payment method -->
+                          <label style="font-weight:bold;">Payment type</label>
+                        </div>
+                        <div class="col-md-8 col-6">
+                          <!-- Attribute to payment -->
+                          {{ customer.get_payment_method() }}
+                        </div>
+                      </div>
+                      <hr />
+
+                      <div class="row">
+                        <div class="col-sm-3 col-md-2 col-5">
+                          <!-- Label of Card Number -->
+                          <label style="font-weight:bold;">Card Number</label>
+                        </div>
+                        <div class="col-md-8 col-6">
+                          <!-- Attribute to card number -->
+                          {{ ("*"*12)+customer.get_card_number()[:4] }}
+                        </div>
+                      </div>
+                      <hr />
+
+                      <div class="row">
+                        <div class="col-sm-3 col-md-2 col-5">
+                          <!-- Label of Card Expiry -->
+                          <label style="font-weight:bold;">Card Expiry Date</label>
+                        </div>
+                        <div class="col-md-8 col-6">
+                          <!-- Attribute to Expiry -->
+                          {{ customer.get_expiry() }}
+                        </div>
+                      </div>
+                      <hr />
+
+                      <div class="row">
+                        <div class="col-sm-3 col-md-2 col-5">
+                          <!-- Label of card security code -->
+                          <label style="font-weight:bold;">Card Security Code</label>
+                        </div>
+                        <div class="col-md-8 col-6">
+                          <!-- Attribute to card security code -->
+                          {{ customer.get_security_code() }}
+                        </div>
+                      </div>
+                      <hr />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,171 @@
+<!--Base template for Promotion and Product Page-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap%22%3E">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}" type="text/css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}" type="text/css">
+
+    </head>
+
+    <body>
+        {% block navbar %}
+            {% include 'includes/_navbar.html' %}
+        {% endblock %}
+
+        {% block content %}
+        {% endblock %}
+
+        {% block footer %}
+            {% include 'includes/_footer.html' %}
+        {% endblock %}
+
+
+
+        {% block scripts %}
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!--        <script src="https://arifhamed.000webhostapp.com/resources/ay2020s2/appdev/faq_search.js"></script>-->
+        <script>
+            function faq_search() {
+                // Declare variables
+                var input, filter, accord, div, span, i, txtValue;
+                input = document.getElementById('faq_input');
+                filter = input.value.toUpperCase();
+                accord = document.getElementById("faqExample");
+                divcard = accord.getElementsByClassName('card');
+
+                displayed_count = 0;
+
+                // Loop through all list items, and hide those who don't match the search query
+                for (i = 0; i < divcard.length; i++) {
+                    // Question
+                    span1 = document.evaluate("/html/body/div[1]/div/div/div/div[" + (i+1) +"]/div[1]/h5/button/span", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                    // Answer
+                    span2 = document.evaluate("/html/body/div[1]/div/div/div/div[" + (i+1) +"]/div[2]/div/span", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                    // Username
+                    span3 = document.evaluate("/html/body/div[1]/div/div/div/div[" + (i+1) +"]/div[1]/h5/div/span", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+
+                    txtValue1 = span1.textContent || span1.innerText;
+                    txtValue2 = span2.textContent || span2.innerText;
+                    txtValue3 = span3.textContent || span3.innerText;
+                    if ((txtValue1.toUpperCase().indexOf(filter) > -1) || (txtValue2.toUpperCase().indexOf(filter) > -1) || (txtValue3.toUpperCase().indexOf(filter) > -1)) {
+                        divcard[i].style.display = "";
+                    } else {
+                        divcard[i].style.display = "none";
+                    }
+                    if (divcard[i].style.display != "none") {
+                        displayed_count = displayed_count + 1;
+                    }
+                }
+                if (displayed_count == 0) {
+                    document.getElementById("faq_no_results").style.display = ""
+                } else {
+                    document.getElementById("faq_no_results").style.display = "none"
+                }
+            }
+
+            function faq_search_admin() {
+                // Declare variables
+                var input, filter, accord, div, span, i, txtValue;
+                input = document.getElementById('faq_input');
+                filter = input.value.toUpperCase();
+                accord = document.getElementById("faqExample");
+                divcard = accord.getElementsByClassName('card');
+
+                displayed_count = 0;
+
+                // Loop through all list items, and hide those who don't match the search query
+                for (i = 0; i < divcard.length; i++) {
+                    // Question
+                    span1 = document.evaluate("/html/body/div[1]/div/div/div[2]/div[" + (i+1) +"]/div[1]/h5/button/span", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                    txtValue1 = span1.textContent || span1.innerText;
+                    // Answer
+                    if (document.evaluate("/html/body/div[1]/div/div/div/div[" + (i+1) +"]/div[2]/div/span", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue) {
+                        span2 = document.evaluate("/html/body/div[1]/div/div/div/div[" + (i+1) +"]/div[2]/div/span", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                        txtValue2 = span2.textContent || span2.innerText;
+                    } else {
+                        txtValue2 = null
+                    }
+                    // Username
+                    span3 = document.evaluate("/html/body/div[1]/div/div/div[2]/div[" + (i+1) + "]/div[1]/h5/div/span", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                    txtValue3 = span3.textContent || span3.innerText;
+
+                    if (txtValue2 != null) {
+                        if ((txtValue1.toUpperCase().indexOf(filter) > -1) || (txtValue2.toUpperCase().indexOf(filter) > -1) || (txtValue3.toUpperCase().indexOf(filter) > -1)) {
+                            divcard[i].style.display = "";
+                        } else {
+                            divcard[i].style.display = "none";
+                        }
+                    } else {
+                        if ((txtValue1.toUpperCase().indexOf(filter) > -1) || (txtValue3.toUpperCase().indexOf(filter) > -1)) {
+                            divcard[i].style.display = "";
+                        } else {
+                            divcard[i].style.display = "none";
+                        }
+                        if (divcard[i].style.display != "none") {
+                            displayed_count = displayed_count + 1;
+                        }
+                    }
+                    if (divcard[i].style.display != "none") {
+                        displayed_count = displayed_count + 1;
+                    }
+                }
+                if (displayed_count == 0) {
+                    document.getElementById("faq_no_results").style.display = ""
+                } else {
+                    document.getElementById("faq_no_results").style.display = "none"
+                }
+            }
+
+            document.getElementById('faq_filter_id').onchange = function() {
+                // Gets selected value and translates into text (from HTML)
+                var index = this.selectedIndex;
+                var inputText = this.children[index].innerHTML.trim();
+
+                // Gets id of accordion
+                var accord = document.getElementById("faqExample");
+
+                // Gets the list of divs in the accordion above
+                var divcard = accord.getElementsByClassName('card');
+
+                // Checks inputText
+                if (inputText == "All") {
+                    for (i = 0; i < divcard.length; i++) {
+                        // This one is all, so it makes all divs visible
+                        divcard[i].style.display = ""
+                        console.log(divcard[i].id)
+                    }
+                } else if (inputText == "Answered") {
+                    for (i = 0; i < divcard.length; i++) {
+
+                        indicator = document.getElementById("indicator"+(i+1))
+                        console.log(i)
+                        if (indicator == null){
+                            divcard[i].style.display = ""
+                        } else {
+                            divcard[i].style.display = "none"
+                        }
+                    }
+                } else if (inputText == "Unanswered") {
+                    for (i = 0; i < divcard.length; i++) {
+                        indicator = document.getElementById("indicator"+(i+1))
+                        if (indicator != null){
+                            divcard[i].style.display = ""
+                        } else {
+                            divcard[i].style.display = "none"
+                        }
+                    }
+                }
+            }
+        </script>
+        {% endblock %}
+    </body>
+</html>

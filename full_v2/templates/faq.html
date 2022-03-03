@@ -1,0 +1,139 @@
+{% extends "faq_base.html" %}
+{% block title %}Queensway Shopping Centre - FAQ {% if session.admin_logged_in %}(Admin){% endif %}{% endblock %}-->
+
+{% block content %}
+{% from "includes/_formHelper.html" import render_field %}
+
+<!-- Error/ Success Message -->
+{% if error %}
+  <div class="alert alert-danger">{{error}}</div>
+{% elif request.args.get('success') %}
+  <div class="alert alert-success">{{ request.args.get('success') }}</div>
+{% endif%}
+
+<div class="container py-3">
+    <div class="row">
+        <div class="col-10 mx-auto">
+
+<!--            {% if unanswered_count != 0 %}-->
+<!--                There are {{ unanswered_count }} questions left unanswered. Please drop by again to see them answered by our admins, thank you!-->
+<!--            {% endif %}-->
+            {% if session.admin_logged_in %}
+            {% if unanswered_count != 0 %}
+            <select name="answered" id="faq_filter_id" class="p-2 col-3 float-left">
+                <option value="all">All</option>
+                <option value="answered">Answered</option>
+                <option value="unanswered">Unanswered</option>
+            </select>
+            {% else %}
+            <span>There are no questions from any users right now... </span>
+            {% endif %}
+            {% endif %}
+
+            {% if not session.admin_logged_in %}
+                {% if answered_count == 0 %}
+                    {% if session.logged_in%}
+                        {% if count == 0 %}
+                        <span>There are no questions answered right now, if you do have one or more, please post one below for the admins to answer!</span>
+                        {% else %}
+                        <span>There are {{ unanswered_count }} questions unanswered right now, if you do have one or more, please post one below for the admins to answer!</span>
+                        {% endif %}
+                    {% else %}
+                    <span>There are no questions answered right now, if you do have one or more, please register for an account and post one here for the admins to answer!</span>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+
+            {% if answered_count > unanswered_count or (session.admin_logged_in and unanswered_count != 0) %}
+                {% if not session.admin_logged_in %}
+                <input type="text" id="faq_input" onkeyup="faq_search()" class="p-2 {{ 'col-9' if session.admin_logged_in else 'col-12' }}" placeholder="Search for any keywords...">
+                {% else %}
+                <input type="text" id="faq_input" onkeyup="faq_search_admin()" class="p-2 {{ 'col-9' if session.admin_logged_in and unanswered_count != 0 else 'col-12' }}" placeholder="Search for any keywords...">
+                {% endif %}
+            {% endif %}
+
+
+            <div class="p-2 col-12" style="display: none;" id="faq_no_results">Sorry, but there are no results under these filters, try a different keyword!</div>
+            <div class="accordion" id="faqExample">
+
+                {% for question in question_list %}
+                    {% if question.get_answer() != "" or session.admin_logged_in %}
+                        <div class="card">
+                            <div class="card-header p-2" id="heading{{ question.get_id() }}">
+                                <h5>
+                                    <button class="btn btn-link {{ 'collapsed' if loop.index != 1 }}" type="button" data-toggle="collapse" data-target="#collapse{{ loop.index }}" aria-expanded="{{ 'true' if loop.index == 1 else 'false' }}" aria-controls="collapse{{ loop.index }}">
+                                        {% if question.get_answer() == "" %}
+                                        <svg id="indicator{{ loop.index }}" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/></svg>
+                                        {% endif %}
+                                        <span>{{ question.get_question() }}</span>
+                                    </button>
+                                    {% if session.admin_logged_in %}
+                                    <form action="/FAQdelete/{{ question.get_id() }}/", method="POST", class="float-right">
+                                        <button class="btn btn-danger"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/><path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/></svg></button>
+                                    </form>
+                                    {% endif %}
+
+                                    <div class="float-right"><span>{{ question.get_username() }}</span></div>
+                                </h5>
+                            </div>
+                            <div id="collapse{{ loop.index }}" class="collapse {{ 'show' if loop.index == 1 }}" aria-labelledby="heading{{ loop.index }}" data-parent="#faqExample">
+                                <div class="card-body">
+                                    {% if session.admin_logged_in and question.get_answer() == "" %}
+                                        <a href="/FAQanswering/{{ question.get_id() }}" class="btn btn-warning">Answer/edit this question</a>
+                                    {% else %}
+                                        <b>Answer:</b>
+                                        <span>{{ question.get_answer() }}</span>
+
+                                    {% endif %}
+                                    {% if session.admin_logged_in and question.get_answer() != "" %}
+                                        <a href="/FAQanswering/{{ question.get_id() }}" class="btn btn-warning float-right">Edit this post</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% if session.logged_in %}
+<div class="container py-3">
+    <form method="POST" action="" id="question">
+        <div class="form-group">
+            <h5>Post a question for us!</h5>
+<!--            <label for="comment">Your Comment</label>-->
+<!--            <textarea name="comment" class="form-control" rows="3"></textarea>-->
+            {{ render_field(form.question, class="form-control") }}
+        </div>
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Send</button>
+            <!-- The Modal -->
+        <div class="modal" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Question Upload</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        Submit question as @{{session.username}}?
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Send</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+{% endif %}
+{% endblock %}

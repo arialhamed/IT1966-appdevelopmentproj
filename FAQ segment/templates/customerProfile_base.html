@@ -1,0 +1,78 @@
+<!--Base template for Customer Profile-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins&display=swap">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/customerProfile.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/navbar.css')}}" type="text/css">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    {% block navbar %}
+        {% include 'includes/_navbar.html' %}
+    {% endblock %}
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <div class="container">
+        {% block footer %}
+        {% endblock %}
+    </div>
+
+
+    {% block script %}
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script>
+            $(document).ready(function() {
+              $imgSrc = $('#imgProfile').attr('src');
+
+              function readURL(input) {
+
+                if (input.files && input.files[0]) {
+                  var reader = new FileReader();
+
+                  reader.onload = function(e) {
+                    $('#imgProfile').attr('src', e.target.result);
+                  };
+
+                  reader.readAsDataURL(input.files[0]);
+                }
+              }
+              $('#btnChangePicture').on('click', function() {
+                // document.getElementById('profilePicture').click();
+                if (!$('#btnChangePicture').hasClass('changing')) {
+                  $('#profilePicture').click();
+                } else {
+                  // change
+                }
+              });
+              $('#profilePicture').on('change', function() {
+                readURL(this);
+                $('#btnChangePicture').addClass('changing');
+                $('#btnChangePicture').attr('value', 'Confirm');
+                $('#btnDiscard').removeClass('d-none');
+                // $('#imgProfile').attr('src', '');
+              });
+              $('#btnDiscard').on('click', function() {
+                // if ($('#btnDiscard').hasClass('d-none')) {
+                $('#btnChangePicture').removeClass('changing');
+                $('#btnChangePicture').attr('value', 'Change');
+                $('#btnDiscard').addClass('d-none');
+                $('#imgProfile').attr('src', $imgSrc);
+                $('#profilePicture').val('');
+                // }
+              });
+            });
+        </script>
+    {% endblock %}
+</body>
+</html>

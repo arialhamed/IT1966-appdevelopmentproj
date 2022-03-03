@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}Customer View page{% endblock %}
+
+{% block css %}
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="{{ url_for('static', filename='css/storeManage.css') }}" rel="stylesheet">
+    <link href="{{url_for('static', filename='css/shop-item.css')}}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+  <div class="container">
+        <h1 class="my-4">Shop Name</h1>
+       <div class="card mt-4 border-0"  >
+            <div class="row no-gutters">
+            <div class="col-4">
+          <img src="/static/img/{{ product.get_image() }}" alt="" style="max-width:100%;">
+            </div>
+         <div class="col-lg-6">
+          <div class="card-body">
+            <h3>{{ product.get_name() }}</h3>
+            <h4>${{ product.get_price() }}</h4>
+            <p class="card-text">{{ product.get_description() }}</p>
+              <div class="btn-group">
+                  <a class="btn btn-sm btn-outline-secondary" href="/allreviews"  role="button">Reviews</a>
+                  <a id="{{product.get_products_id()}}" class="btn btn-sm btn-outline-secondary" href="/addCart/{{product.get_products_id()}}/1"  onclick = "return confirm('Are you sure you want to add {{ product.get_name() }} to cart?')">Add To Cart</a>
+                  <input type="number" id="{{product.get_products_id()}}qty" onchange="myFunction('{{product.get_products_id()}}')" value="1" min="1" max="{{product.get_stock()}}">
+
+                  <script>
+                  function myFunction(product) {
+                    var x = document.getElementById(product+"qty").value;
+                    console.log(x)
+                    document.getElementById(product).href = "/addCart/"+ product + "/" + x;
+                  }
+                  </script>
+                </div>
+                <small class="text-muted">Stock: {{ product.get_stock() }}</small>
+              </div>
+              <span class="heading">User Rating</span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    <p>4.1 average based on 254 reviews.</p>
+                    <hr style="border:3px solid #f1f1f1">
+
+                    <div class="row">
+                      <div class="side">
+                        <div>5 star</div>
+                      </div>
+                      <div class="middle">
+                        <div class="bar-container">
+                          <div class="bar-5"></div>
+                        </div>
+                      </div>
+                      <div class="side left">
+                        <div>150</div>
+                      </div>
+                      <div class="side">
+                        <div>4 star</div>
+                      </div>
+                      <div class="middle">
+                        <div class="bar-container">
+                          <div class="bar-4"></div>
+                        </div>
+                      </div>
+                      <div class="side left">
+                        <div>63</div>
+                      </div>
+                      <div class="side">
+                        <div>3 star</div>
+                      </div>
+                      <div class="middle">
+                        <div class="bar-container">
+                          <div class="bar-3"></div>
+                        </div>
+                      </div>
+                      <div class="side left">
+                        <div>15</div>
+                      </div>
+                      <div class="side">
+                        <div>2 star</div>
+                      </div>
+                      <div class="middle">
+                        <div class="bar-container">
+                          <div class="bar-2"></div>
+                        </div>
+                      </div>
+                      <div class="side left">
+                        <div>6</div>
+                      </div>
+                      <div class="side">
+                        <div>1 star</div>
+                      </div>
+                      <div class="middle">
+                        <div class="bar-container">
+                          <div class="bar-1"></div>
+                        </div>
+                      </div>
+                      <div class="side left">
+                        <div>20</div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+          </div>
+        </div>
+       </div>
+  </div>
+{% endblock content %}

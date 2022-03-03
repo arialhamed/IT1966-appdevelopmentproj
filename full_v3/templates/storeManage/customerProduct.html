@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Customer Product page{% endblock %}
+
+{% block css %}
+  <link href="{{ url_for('static', filename='css/storeManage.css') }}" rel="stylesheet">
+{% endblock css %}
+
+{% block content %}
+<main role="main">
+  <section class="jumbotron text-center" style="background-color: #B19CD9 !important">
+    <div class="container">
+      <h1>Store Products</h1>
+    </div>
+  </section>
+
+  <div class="album py-5 bg-light" style="background-color: #B19CD9 !important">
+    <div class="container">
+      <div class="row">
+        {% for product in products_list %}
+        <div class="col-md-4">
+          <div class="card mb-4 shadow-sm">
+            <a href = "{{url_for('customer_view', id=product.get_products_id())}}"><img src="/static/img/{{ product.get_image() }}" class="card-img-top">
+            </a>
+            <div class="card-body">
+              <p class="card-text">{{ product.get_name() }}</p>
+              <p class="card-text">${{ product.get_price() }}</p>
+              <p class="card-text">{{ product.get_description() }}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <a class="btn btn-sm btn-outline-secondary" href="/createreview"  role="button">Reviews</a>
+                  <a id="{{product.get_products_id()}}" class="btn btn-sm btn-outline-secondary" href="/addCart/{{product.get_products_id()}}/1"  onclick = "return confirm('Are you sure you want to add {{ product.get_name() }} to cart?')">Add To Cart</a>
+                  <input type="number" id="{{product.get_products_id()}}qty" onchange="myFunction('{{product.get_products_id()}}')" value="1" min="1" max="{{product.get_stock()}}">
+                </div>
+                <small class="text-muted">Stock: {{ product.get_stock() }}</small>
+              </div>
+                </div>
+              </div>
+            </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}
+
+{% block script %}
+<script>
+  function myFunction(product) {
+    var x = document.getElementById(product+"qty").value;
+    console.log(x)
+    document.getElementById(product).href = "/addCart/"+ product + "/" + x;
+  }
+</script>
+{% endblock script %}
